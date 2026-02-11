@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SportGear.com | Tennis & Padel Expert</title>
+    <style>
+        /* IMPORTAZIONE FONT GOOGLE: Montserrat (Titoli) e Inter (Testo) */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Montserrat:wght@700;800&display=swap');
+
+        :root {
+            --wimbledon-green: #004e32;
+            --tennis-ball: #ccff00;
+            --white: #ffffff;
+            --dark-gray: #222;
+            --light-gray: #f4f4f4;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { 
+            background-color: var(--white); 
+            color: var(--dark-gray); 
+            line-height: 1.6;
+            font-family: 'Inter', sans-serif;
+        }
+
+        h1, h2, h3 { font-family: 'Montserrat', sans-serif; }
+
+        /* Navigation */
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1.5rem 5%; border-bottom: 1px solid #ddd;
+            position: sticky; top: 0; background: var(--white); z-index: 1000;
+        }
+
+        .logo { font-weight: 900; font-size: 1.5rem; letter-spacing: -1px; cursor: pointer; color: var(--dark-gray); }
+        .logo span { color: var(--wimbledon-green); }
+
+        /* Hero Section */
+        .hero { 
+            text-align: center; 
+            padding: 6rem 5% 8rem; 
+            background-color: var(--wimbledon-green);
+            background-image: linear-gradient(rgba(0, 78, 50, 0.85), rgba(0, 78, 50, 0.85)), url('https://images.unsplash.com/photo-1628125890066-419b33a5585b?auto=format&fit=crop&q=80&w=1600');
+            background-size: cover; background-position: center;
+            color: white; transition: 0.5s;
+        }
+
+        .hero h1 { font-size: 3.5rem; margin-bottom: 1rem; letter-spacing: -1px; }
+        .hero p { font-size: 1.2rem; opacity: 0.9; max-width: 600px; margin: 0 auto; }
+
+        /* CONTAINER PRINCIPALE */
+        .main-container {
+            max-width: 900px; margin: -60px auto 50px;
+            background: white; padding: 3rem;
+            border-radius: 16px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            min-height: 400px; position: relative; z-index: 10;
+            border-top: 5px solid var(--tennis-ball);
+        }
+
+        /* CARD DI SELEZIONE */
+        .selection-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1rem; }
+
+        .selection-card {
+            border: 2px solid #eee; border-radius: 12px; padding: 3rem 1rem;
+            text-align: center; cursor: pointer; transition: 0.3s;
+            background: white; position: relative; overflow: hidden;
+        }
+        .selection-card:hover { border-color: var(--wimbledon-green); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .selection-card h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .selection-icon { font-size: 3rem; margin-bottom: 1rem; display: block; }
+        
+        .card-disabled { opacity: 0.6; cursor: not-allowed; background: #f9f9f9; }
+        .coming-soon { position: absolute; top: 10px; right: 10px; background: var(--dark-gray); color: white; font-size: 0.7rem; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; }
+
+        /* FORM FILTRI */
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        label { display: block; font-weight: 700; margin-bottom: 0.8rem; color: var(--dark-gray); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.5px; }
+        select { width: 100%; padding: 1rem; border: 2px solid #eee; border-radius: 8px; font-size: 1rem; background: #fff; cursor: pointer; transition: 0.3s; }
+        select:focus { border-color: var(--wimbledon-green); outline: none; }
+
+        .btn-action {
+            width: 100%; padding: 1.2rem; background: var(--dark-gray);
+            color: white; border: none; border-radius: 8px;
+            font-size: 1.1rem; font-weight: 700; cursor: pointer;
+            transition: 0.3s; margin-top: 20px;
+        }
+        .btn-action:hover { background: var(--wimbledon-green); transform: translateY(-2px); }
+
+        .btn-back { background: transparent; color: #888; border: none; cursor: pointer; margin-bottom: 1rem; font-size: 0.9rem; }
+        .btn-back:hover { text-decoration: underline; color: var(--dark-gray); }
+
+        /* Utility Classes */
+        .hidden { display: none !important; }
+
+        /* Results Area */
+        .results-section { padding: 5rem 5%; background: #f9f9f9; display: none; }
+        .results-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2.5rem; margin-top: 3rem; }
+
+        .product-card {
+            background: white; padding: 0; border-radius: 12px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); overflow: hidden;
+            transition: transform 0.3s; border: 1px solid #eee;
+            display: flex; flex-direction: column;
+        }
+        .product-card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+
+        .card-image-container {
+            height: 250px; background: white; display: flex; 
+            align-items: center; justify-content: center; padding: 20px;
+        }
+        .card-image-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+        .card-content { padding: 1.5rem; }
+        .badge {
+            background: var(--tennis-ball); color: var(--dark-gray);
+            padding: 4px 10px; font-size: 0.75rem; font-weight: 800;
+            border-radius: 4px; text-transform: uppercase; display: inline-block; margin-bottom: 0.5rem;
+        }
+        .spec-preview { display: flex; justify-content: space-between; font-size: 0.9rem; color: #666; margin: 1rem 0; border-top: 1px solid #eee; border-bottom: 1px solid #eee; padding: 10px 0; }
+
+        /* MODAL */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); z-index: 2000;
+            display: none; justify-content: center; align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background: white; width: 90%; max-width: 850px;
+            border-radius: 12px; padding: 2rem; position: relative;
+            max-height: 90vh; overflow-y: auto;
+        }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; cursor: pointer; color: #999; z-index: 10; }
+        .pro-player-section { margin-top: 1.5rem; background: #f9f9f9; padding: 1rem; border-radius: 8px; }
+        .pro-name { font-weight: 700; color: var(--wimbledon-green); }
+        .tech-specs { list-style: none; margin-top: 1rem; }
+        .tech-specs li { display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px dashed #eee; }
+
+        /* FOOTER */
+        footer { margin-top: 4rem; border-top: 1px solid #eee; padding-top: 2rem; }
+
+        @media (max-width: 768px) {
+            .selection-grid, .form-grid, .modal-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2.2rem; }
+            .main-container { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo" onclick="resetSito()">SPORTGEAR<span>.COM</span></div>
+    </nav>
+
+    <header class="hero">
+        <h1 id="hero-title">Scegli il tuo sport</h1>
+        <p id="hero-desc">Inizia il percorso per trovare l'attrezzatura perfetta.</p>
+    </header>
+
+    <section class="main-container">
+        
+        <div id="step-1">
+            <h2 style="text-align: center; margin-bottom: 2rem;">Cosa pratichi?</h2>
+            <div class="selection-grid">
+                <div class="selection-card" onclick="goToStep2('tennis')">
+                    <span class="selection-icon">🎾</span>
+                    <h3>Tennis</h3>
+                    <p>Racchette, scarpe e accessori</p>
+                </div>
+                <div class="selection-card" onclick="goToStep2('padel')"> 
+                    <span class="selection-icon">🥎</span>
+                    <h3>Padel</h3>
+                    <p>Pale e scarpe specifiche</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="step-2" class="hidden">
+            <button class="btn-back" onclick="resetSito()">← Torna agli sport</button>
+            <h2 style="text-align: center; margin-bottom: 2rem;">Cosa stai cercando?</h2>
+            <div class="selection-grid">
+                <div class="selection-card" onclick="goToStep3('racchette')">
+                    <span class="selection-icon">🏸</span>
+                    <h3>Racchette</h3>
+                    <p>Trova il telaio perfetto</p>
+                </div>
+                <div class="selection-card" onclick="goToStep3('scarpe')">
+                    <span class="selection-icon">👟</span>
+                    <h3>Scarpe</h3>
+                    <p>Stabilità e velocità</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="step-3" class="hidden">
+            <button class="btn-back" onclick="goToStep2(sportSelezionato)">← Cambia categoria</button>
+            <h2 style="text-align: center; margin-bottom: 2rem;">Definisci il tuo profilo</h2>
+            
+            <div class="form-grid">
+                <div>
+                    <label>Il tuo Livello</label>
+                    <select id="livello">
+                        <option value="Tutti">Qualsiasi Livello</option>
+                        <option value="Principiante">Principiante (Inizio a giocare)</option>
+                        <option value="Intermedio" selected>Intermedio (Gioco regolarmente)</option>
+                        <option value="Esperto">Esperto (Competitivo/Tornei)</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Caratteristica Principale</label>
+                    <select id="stile"></select>
+                </div>
+            </div>
+            <button class="btn-action" onclick="eseguiRicerca()">Cerca Prodotti</button>
+        </div>
+
+    </section>
+
+    <section id="risultati" class="results-section">
+        <h2 style="text-align: center; margin-bottom: 1rem;">Risultati della ricerca</h2>
+        <div id="grid-prodotti" class="results-grid"></div>
+    </section>
+
+    <div id="product-modal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-btn" onclick="chiudiModal()">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p style="padding: 1rem 5% 0.5rem; text-align: center; font-size: 0.9rem; color: #888;">&copy; 2026 SportGear.com</p>
+        <p style="padding: 0 5% 2rem; text-align: center; font-size: 0.75rem; color: #aaa; max-width: 800px; margin: 0 auto;">
+            In qualità di Affiliato Amazon, SportGear.com riceve un guadagno dagli acquisti idonei.
+        </p>
+    </footer>
+
+    <script>
+        // --- VARIABILI DI STATO ---
+        let sportSelezionato = '';
+        let categoriaSelezionata = '';
+
+        // --- DATABASE TENNIS ---
+        const dbRacchette = [
+            { id: 101, nome: "Babolat Boost Drive", liv: "Principiante", st: "Power", peso: "260g", piatto: "105", pattern: "16x19", prezzo: "99€", img: "img/babolat-boost.jpg", desc: "La scelta n.1 per chi inizia. Leggera, piatto corde enorme per perdonare i decentraggi.", pros: "Prezzo, facilità.", cons: "Poca stabilità.", pro_m: "-", pro_f: "-", link: "https://amzn.to/3OBSzRt" },
+            { id: 102, nome: "Head Ti.S6", liv: "Principiante", st: "Power", peso: "225g", piatto: "115", pattern: "16x19", prezzo: "89€", img: "img/head-tis6.jpg", desc: "Un classico intramontabile. Leggerissima e potente.", pros: "Potenza senza sforzo.", cons: "Controllo difficile.", pro_m: "-", pro_f: "-", link: "https://amzn.to/4aaYBRA" },
+            { id: 103, nome: "Wilson Ultra 100UL", liv: "Principiante", st: "Control", peso: "260g", piatto: "100", pattern: "16x19", prezzo: "140€", img: "img/wilson-ultra-ul.jpg", desc: "Per il principiante ambizioso.", pros: "Stabilità.", cons: "Richiede movimento fluido.", pro_m: "-", pro_f: "-", link: "https://amzn.to/4quZdGs" },
+            { id: 104, nome: "Head Extreme Team", liv: "Principiante", st: "Spin", peso: "255g", piatto: "100", pattern: "16x19", prezzo: "130€", img: "img/head-extreme-team.jpg", desc: "Facilita le rotazioni.", pros: "Spin facile.", cons: "Feeling rigido.", pro_m: "-", pro_f: "-", link: "https://amzn.to/4rFkH4p" },
+            { id: 105, nome: "ProKennex Ki 15", liv: "Principiante", st: "Comfort", peso: "260g", piatto: "105", pattern: "16x19", prezzo: "160€", img: "img/prokennex-ki15.jpg", desc: "Tecnologia Kinetic anti-vibrazione.", pros: "Salute del braccio.", cons: "Estetica.", pro_m: "-", pro_f: "-", link: "https://amzn.to/3ZrKfGp" },
+            { id: 201, nome: "Babolat Pure Drive", liv: "Intermedio", st: "Power", peso: "300g", piatto: "100", pattern: "16x19", prezzo: "220€", img: "img/babolat-puredrive.jpg", desc: "Potenza esplosiva, adatta a chi piace spingere da fondo.", pros: "Potenza, servizio devastante.", cons: "Un po' rigida.", pro_m: "Fabio Fognini", pro_f: "Garbine Muguruza", link: "https://amzn.to/4kxsxei" },
+            { id: 202, nome: "Head Speed MP", liv: "Intermedio", st: "Power", peso: "300g", piatto: "100", pattern: "16x19", prezzo: "240€", img: "img/head-speed-mp.jpg", desc: "Veloce nell'aria, potente ma controllabile.", pros: "Feeling eccellente.", cons: "Meno spin della media.", pro_m: "Jannik Sinner", pro_f: "Bianca Andreescu", link: "https://amzn.to/4aKUEDe" },
+            { id: 203, nome: "Wilson Blade 98", liv: "Intermedio", st: "Control", peso: "305g", piatto: "98", pattern: "16x19", prezzo: "230€", img: "img/wilson-blade98.jpg", desc: "Connessione con la palla incredibile.", pros: "Controllo.", cons: "Richiede braccio allenato.", pro_m: "Tsitsipas", pro_f: "Sabalenka", link: "https://amzn.to/3MjX3f2" },
+            { id: 204, nome: "Babolat Pure Aero", liv: "Intermedio", st: "Spin", peso: "300g", piatto: "100", pattern: "16x19", prezzo: "239€", img: "img/babolat-pureaero.jpg", desc: "La regina dello spin.", pros: "Spin eccezionale.", cons: "Controllo.", pro_m: "Alcaraz", pro_f: "Fernandez", link: "https://amzn.to/46EEHvV" },
+            { id: 205, nome: "Yonex VCORE 100", liv: "Intermedio", st: "Spin", peso: "300g", piatto: "100", pattern: "16x19", prezzo: "230€", img: "img/yonex-vcore100.jpg", desc: "Tecnologia giapponese per il massimo spin.", pros: "Sweetspot ampio.", cons: "Meno potenza gratuita.", pro_m: "Shapovalov", pro_f: "Rybakina", link: "https://amzn.to/3OBSzRt" },
+            { id: 206, nome: "Wilson Clash 100", liv: "Intermedio", st: "Comfort", peso: "295g", piatto: "100", pattern: "16x19", prezzo: "260€", img: "img/wilson-clash100.jpg", desc: "Rivoluzionaria flessibilità.", pros: "Comfort assoluto.", cons: "Feedback ovattato.", pro_m: "-", pro_f: "-", link: "https://amzn.to/4aaYBRA" },
+            { id: 301, nome: "Yonex EZONE 98", liv: "Esperto", st: "Power", peso: "305g", piatto: "98", pattern: "16x19", prezzo: "240€", img: "img/yonex-ezone98.jpg", desc: "Potenza controllata.", pros: "Stabilità.", cons: "Richiede centratura.", pro_m: "Kyrgios", pro_f: "Pegula", link: "https://amzn.to/4quZdGs" },
+            { id: 302, nome: "Wilson Pro Staff 97", liv: "Esperto", st: "Control", peso: "315g", piatto: "97", pattern: "16x19", prezzo: "280€", img: "img/wilson-prostaff97.jpg", desc: "La leggenda. Sensibilità pura.", pros: "Precisione.", cons: "Pesante.", pro_m: "Federer", pro_f: "Jabeur", link: "https://amzn.to/4rFkH4p" },
+            { id: 303, nome: "Head Prestige Pro", liv: "Esperto", st: "Control", peso: "320g", piatto: "98", pattern: "18x20", prezzo: "260€", img: "img/head-prestige.jpg", desc: "Per i puristi. Controllo direzionale assoluto.", pros: "Feeling classico.", cons: "Molto esigente.", pro_m: "Cilic", pro_f: "-", link: "https://amzn.to/3ZrKfGp" },
+            { id: 304, nome: "Head Extreme Tour", liv: "Esperto", st: "Spin", peso: "305g", piatto: "98", pattern: "16x19", prezzo: "230€", img: "img/head-extreme-tour.jpg", desc: "Spin estremo in un formato Tour.", pros: "Spin e controllo.", cons: "Meno tolleranza.", pro_m: "Berrettini", pro_f: "Krejcikova", link: "https://amzn.to/4amUi4s" },
+            { id: 305, nome: "Prince Phantom 93P", liv: "Esperto", st: "Comfort", peso: "330g", piatto: "93", pattern: "18x20", prezzo: "200€", img: "img/prince-phantom.jpg", desc: "Piatto piccolo e flessibile.", pros: "Feeling unico.", cons: "Difficilissima.", pro_m: "-", pro_f: "-", link: "https://amzn.to/4adfafR" }
+        ];
+
+        // --- DATABASE SCARPE TENNIS ---
+        const dbScarpe = [
+            { id: 501, nome: "Asics Gel-Resolution 9", liv: "Tutti", st: "Stabilità", superficie: "All Court", prezzo: "150€", img: "img/asics-gel-res-9.jpg", desc: "La regina della stabilità.", pros: "Supporto massimo.", cons: "Pesante.", pro_m: "Djokovic", pro_f: "Swiatek", link: "https://amzn.to/4cnxrZ6" },
+            { id: 502, nome: "Asics Solution Speed FF 3", liv: "Tutti", st: "Agilità", superficie: "All Court", prezzo: "145€", img: "img/asics-solution-3.jpg", desc: "Velocità pura.", pros: "Leggerezza.", cons: "Meno supporto.", pro_m: "De Minaur", pro_f: "Bencic", link: "https://amzn.to/3MgldqJ" },
+            { id: 503, nome: "Nike Vapor 11", liv: "Esperto", st: "Agilità", superficie: "Cemento", prezzo: "175€", img: "img/nike-vapor-11.jpg", desc: "Bassa sul terreno.", pros: "Design.", cons: "Durata.", pro_m: "Alcaraz", pro_f: "Sabalenka", link: "https://amzn.to/3MjYdHq" },
+            { id: 504, nome: "Nike GP Challenge 1", liv: "Intermedio", st: "Comfort", superficie: "Tutte", prezzo: "160€", img: "img/nike-gp-challenge.jpg", desc: "Grande unità Air Zoom.", pros: "Ammortizzazione.", cons: "Larga.", pro_m: "Tiafoe", pro_f: "Osaka", link: "https://amzn.to/3Mp2QQg" },
+            { id: 505, nome: "Adidas Barricade 13", liv: "Esperto", st: "Stabilità", superficie: "Terra", prezzo: "155€", img: "img/adidas-barricade-13.jpg", desc: "Classico per il supporto.", pros: "Indistruttibile.", cons: "Rigida.", pro_m: "Tsitsipas", pro_f: "Sakkari", link: "https://amzn.to/4aPk3uH" },
+            { id: 506, nome: "Adidas Ubersonic 4", liv: "Intermedio", st: "Agilità", superficie: "Tutte", prezzo: "140€", img: "img/adidas-ubersonic-4.jpg", desc: "Calzata a calzino.", pros: "Comfort.", cons: "Suola.", pro_m: "Zverev", pro_f: "Rybakina", link: "https://amzn.to/4rjctzs" },
+            { id: 507, nome: "Babolat Propulse Fury 3", liv: "Intermedio", st: "Stabilità", superficie: "Terra", prezzo: "145€", img: "img/babolat-propulse-fury.jpg", desc: "Suola Michelin.", pros: "Grip.", cons: "Massiccia.", pro_m: "Paire", pro_f: "-", link: "https://amzn.to/3Zs88O2" },
+            { id: 508, nome: "Head Revolt Pro 4.5", liv: "Tutti", st: "Comfort", superficie: "Tutte", prezzo: "135€", img: "img/head-revolt-pro.jpg", desc: "Per giocatori pesanti.", pros: "Qualità/prezzo.", cons: "Ventilazione.", pro_m: "Rublev", pro_f: "Krejcikova", link: "https://amzn.to/45Ylu8n" },
+            { id: 509, nome: "Yonex PC Evolve", liv: "Esperto", st: "Comfort", superficie: "Tutte", prezzo: "165€", img: "img/yonex-pc-evolve.jpg", desc: "Power Cushion.", pros: "Ammortizzazione.", cons: "Design.", pro_m: "Ruud", pro_f: "Rybakina", link: "https://amzn.to/4tDv6zF" },
+            { id: 510, nome: "Wilson Rush Pro 4.0", liv: "Intermedio", st: "Stabilità", superficie: "Cemento", prezzo: "130€", img: "img/wilson-rush-pro.jpg", desc: "Solida ma leggera.", pros: "Equilibrio.", cons: "Calza piccola.", pro_m: "Humbert", pro_f: "Kostyuk", link: "https://amzn.to/4020JVN" }
+        ];
+
+        // --- DATABASE PADEL (PALE) ---
+        const dbPadel = [
+            { id: 701, nome: "Babolat Technical Viper", liv: "Esperto", st: "Power", prezzo: "280€", img: "img/padel/babolat-viper.jpg", desc: "Esplosività pura.", pros: "Potenza.", cons: "Poco tollerante.", pro_m: "Lebrón", pro_f: "-", link: "https://amzn.to/3O6IiwF" },
+            { id: 702, nome: "Bullpadel Vertex 04", liv: "Esperto", st: "Power", prezzo: "250€", img: "img/padel/bullpadel-vertex.jpg", desc: "Forma a diamante.", pros: "Potenza/Spin.", cons: "Tecnica.", pro_m: "Navarro", pro_f: "Brea", link: "https://amzn.to/4txc0Ln" },
+            { id: 703, nome: "Adidas Metalbone 3.3", liv: "Esperto", st: "Power", prezzo: "290€", img: "img/padel/adidas-metalbone.jpg", desc: "Personalizzabile.", pros: "Versatilità.", cons: "Prezzo.", pro_m: "Galán", pro_f: "-", link: "https://amzn.to/4kt4LQp" },
+            { id: 708, nome: "StarVie Metheora", liv: "Esperto", st: "Control", prezzo: "240€", img: "img/padel/starvie-metheora.jpg", desc: "Fatta a mano in Spagna.", pros: "Controllo.", cons: "Prezzo.", pro_m: "-", pro_f: "González", link: "https://amzn.to/3ZwhHvs" },
+            { id: 709, nome: "Siux Electra ST3", liv: "Esperto", st: "Power", prezzo: "260€", img: "img/padel/siux-electra.jpg", desc: "Ibrida tendente alla potenza.", pros: "Uscita palla.", cons: "Manico.", pro_m: "Stupa", pro_f: "-", link: "https://amzn.to/46A6aip" },
+            { id: 710, nome: "Royal Padel M27", liv: "Esperto", st: "Comfort", prezzo: "270€", img: "img/padel/royal-padel-m27.jpg", desc: "Nucleo in polietilene.", pros: "Zero vibrazioni.", cons: "Potenza.", pro_m: "-", pro_f: "-", link: "https://amzn.to/4asEuNF" },
+            { id: 704, nome: "Nox AT10 Genius 12K", liv: "Intermedio", st: "Control", prezzo: "210€", img: "img/padel/nox-at10.jpg", desc: "La più venduta.", pros: "Sweetspot.", cons: "Smash.", pro_m: "Tapia", pro_f: "-", link: "https://amzn.to/4rOYGAs" },
+            { id: 711, nome: "Nox ML10 Pro Cup", liv: "Intermedio", st: "Comfort", prezzo: "140€", img: "img/padel/nox-ml10.jpg", desc: "Leggenda.", pros: "Comfort totale.", cons: "Tecnologia.", pro_m: "Lamperti", pro_f: "-", link: "https://amzn.to/4rPHpqW" },
+            { id: 712, nome: "Head Speed Motion", liv: "Intermedio", st: "Power", prezzo: "180€", img: "img/padel/head-speed-motion.jpg", desc: "Leggera a goccia.", pros: "Peso/Potenza.", cons: "Stabilità.", pro_m: "-", pro_f: "Sanchez", link: "https://amzn.to/40abNQF" },
+            { id: 713, nome: "Babolat Air Viper", liv: "Intermedio", st: "Power", prezzo: "225€", img: "img/padel/babolat-air-viper.jpg", desc: "Veloce a rete.", pros: "Velocità.", cons: "Sweetspot.", pro_m: "-", pro_f: "-", link: "https://amzn.to/4rIOARt" },
+            { id: 705, nome: "Wilson Bela LT", liv: "Intermedio", st: "Control", prezzo: "200€", img: "img/padel/wilson-bela-lt.jpg", desc: "Versione leggera.", pros: "Comfort.", cons: "Spinta.", pro_m: "Bela", pro_f: "-", link: "https://amzn.to/4rbYGdL" },
+            { id: 706, nome: "Head Evo Speed", liv: "Principiante", st: "Comfort", prezzo: "75€", img: "img/padel/head-evo.jpg", desc: "Perfetta per iniziare.", pros: "Prezzo.", cons: "Materiali.", pro_m: "-", pro_f: "-", link: "https://amzn.to/4aK41Df" },
+            { id: 714, nome: "Head Flash", liv: "Principiante", st: "Power", prezzo: "65€", img: "img/padel/head-flash.jpg", desc: "Forma a goccia.", pros: "Spinta.", cons: "Controllo.", pro_m: "-", pro_f: "-", link: "https://amzn.to/4ttsQdY" },
+            { id: 707, nome: "Babolat Reveal", liv: "Principiante", st: "Control", prezzo: "70€", img: "img/padel/babolat-reveal.jpg", desc: "Leggera e rotonda.", pros: "Manovrabilità.", cons: "Potenza.", pro_m: "-", pro_f: "-", link: "https://amzn.to/4riabAs" }
+        ];
+
+        // --- DATABASE SCARPE PADEL ---
+        const dbScarpePadel = [
+            { id: 801, nome: "Asics Gel-Resolution 9 Padel", liv: "Tutti", st: "Stabilità", superficie: "Spina di Pesce", prezzo: "140€", img: "img/padel/asics-gel-padel.jpg", desc: "La regina della stabilità.", pros: "Stabilità.", cons: "Rigida.", pro_m: "Lima", pro_f: "Triay", link: "https://amzn.to/3MgqjDn" },
+            { id: 802, nome: "Bullpadel Vertex Vibram", liv: "Esperto", st: "Agilità", superficie: "Ibrida", prezzo: "130€", img: "img/padel/bullpadel-vertex-shoe.jpg", desc: "Suola Vibram.", pros: "Grip.", cons: "Stretta.", pro_m: "Navarro", pro_f: "Brea", link: "https://amzn.to/4alLTzH" },
+            { id: 803, nome: "Babolat Jet Premura 2", liv: "Intermedio", st: "Agilità", superficie: "Padel Specific", prezzo: "155€", img: "img/padel/babolat-jet-premura.jpg", desc: "100% Padel.", pros: "Traspirabilità.", cons: "Durata.", pro_m: "Lebrón", pro_f: "Riera", link: "https://amzn.to/3Zwx6vC" },
+            { id: 804, nome: "Nox AT10 Lux", liv: "Intermedio", st: "Comfort", superficie: "Ibrida", prezzo: "120€", img: "img/padel/nox-at10-shoe.jpg", desc: "Certificata clinicamente.", pros: "Salute.", cons: "Design.", pro_m: "Tapia", pro_f: "-", link: "https://amzn.to/4cnCN6E" },
+            { id: 805, nome: "Head Motion Pro", liv: "Esperto", st: "Stabilità", superficie: "Padel Specific", prezzo: "160€", img: "img/padel/head-motion-pro.jpg", desc: "Grip a 360 gradi.", pros: "Ventilazione.", cons: "Prezzo.", pro_m: "Coello", pro_f: "Sanchez", link: "https://amzn.to/3MvkUrY" },
+            { id: 806, nome: "Kuikma PS 990 Dyn", liv: "Principiante", st: "Agilità", superficie: "Spina di Pesce", prezzo: "65€", img: "img/padel/kuikma-ps-990.jpg", desc: "Best-seller Decathlon.", pros: "Prezzo.", cons: "Ammortizzazione.", pro_m: "Maxi", pro_f: "Sainz", link: "hhttps://www.decathlon.it/tutti-gli-sport/padel/nuova-collezione-scarpe-kuikma?pdt-highlight=334632&mc=8650365&c=verde&utm_source=google&utm_medium=cpc&utm_campaign=it_t-perf_ct-pmax_n-b2c-ao-other-sports_ts-gen_f-cv_o-roas_zombies&utm_id=%7B22431988249%7D-%7B6648104647%7D&gad_source=1&gad_campaignid=22428473432&gbraid=0AAAAADt9os0OACwnDShrmApizeldfpsB3&gclid=Cj0KCQiA7rDMBhCjARIsAGDBuEC5Hq641RwBNK8Jg7GNm_xFktjNlMe8TCKkInzP4Fh8amCDIRAkyvoaAoM3EALw_wcB" },
+            { id: 807, nome: "Joma Slam WPT", liv: "Intermedio", st: "Stabilità", superficie: "Spina di Pesce", prezzo: "80€", img: "img/padel/joma-slam.jpg", desc: "Scarpa ufficiale WPT.", pros: "Robustezza.", cons: "Pesante.", pro_m: "-", pro_f: "-", link: "https://amzn.to/3MqWCzl" },
+            { id: 808, nome: "Wilson Bela Pro", liv: "Esperto", st: "Agilità", superficie: "Circolare", prezzo: "170€", img: "img/padel/wilson-bela-pro.jpg", desc: "Design circolare.", pros: "Rotazioni.", cons: "Rigida.", pro_m: "Bela", pro_f: "-", link: "https://amzn.to/4txdlSp" }
+        ];
+
+        // --- FUNZIONI DI NAVIGAZIONE ---
+        function resetSito() {
+            sportSelezionato = '';
+            categoriaSelezionata = '';
+            
+            document.getElementById('step-1').classList.remove('hidden');
+            document.getElementById('step-2').classList.add('hidden');
+            document.getElementById('step-3').classList.add('hidden');
+            document.getElementById('risultati').style.display = 'none';
+            document.getElementById('grid-prodotti').innerHTML = '';
+            
+            document.getElementById('hero-title').innerText = "Scegli il tuo sport";
+            document.getElementById('hero-desc').innerText = "Inizia il percorso per trovare l'attrezzatura perfetta.";
+        }
+
+        function goToStep2(sport) {
+            // Se la funzione è chiamata dal tasto "Indietro", 'sport' è indefinito o è l'oggetto evento,
+            // quindi usiamo la variabile globale sportSelezionato se esiste.
+            // Se invece è chiamata dallo Step 1, 'sport' è una stringa ('tennis' o 'padel').
+            if (typeof sport === 'string') {
+                sportSelezionato = sport;
+            }
+            
+            // Nascondi Step 1 e 3, Mostra Step 2
+            document.getElementById('step-1').classList.add('hidden');
+            document.getElementById('step-2').classList.remove('hidden');
+            document.getElementById('step-3').classList.add('hidden');
+            
+            // Pulisci risultati
+            document.getElementById('risultati').style.display = 'none';
+            document.getElementById('grid-prodotti').innerHTML = '';
+
+            // Aggiorna testi Hero
+            const title = document.getElementById('hero-title');
+            const desc = document.getElementById('hero-desc');
+            
+            if (sportSelezionato === 'tennis') {
+                title.innerText = "Tennis Gear";
+                desc.innerText = "Seleziona la categoria di prodotto per il Tennis.";
+            } else {
+                title.innerText = "Padel Gear";
+                desc.innerText = "Seleziona la categoria di prodotto per il Padel.";
+            }
+        }
+
+        function goToStep3(categoria) {
+            categoriaSelezionata = categoria;
+            
+            document.getElementById('step-2').classList.add('hidden');
+            document.getElementById('step-3').classList.remove('hidden');
+            document.getElementById('risultati').style.display = 'none';
+
+            const selectStile = document.getElementById('stile');
+            const labelStile = selectStile.previousElementSibling; 
+            selectStile.innerHTML = ''; 
+
+            if (categoria === 'racchette') {
+                labelStile.innerText = (sportSelezionato === 'tennis') ? "Tipo di Racchetta" : "Tipo di Pala";
+                let opzioni = `
+                    <option value="Power">Potenza</option>
+                    <option value="Control">Controllo</option>
+                    <option value="Comfort">Comfort / Tolleranza</option>
+                `;
+                if (sportSelezionato === 'tennis') opzioni += '<option value="Spin">Spin (Rotazioni)</option>';
+                selectStile.innerHTML = opzioni;
+            } else {
+                labelStile.innerText = "Caratteristica Scarpa";
+                selectStile.innerHTML = `
+                    <option value="Stabilità">Stabilità / Supporto</option>
+                    <option value="Agilità">Velocità / Leggerezza</option>
+                    <option value="Comfort">Ammortizzazione</option>
+                `;
+            }
+        }
+
+        // --- RICERCA ---
+        function eseguiRicerca() {
+            const livello = document.getElementById('livello').value;
+            const stile = document.getElementById('stile').value;
+            const grid = document.getElementById('grid-prodotti');
+            const sezione = document.getElementById('risultati');
+            
+            let dbAttuale;
+            if (sportSelezionato === 'tennis') {
+                dbAttuale = (categoriaSelezionata === 'racchette') ? dbRacchette : dbScarpe;
+            } else {
+                dbAttuale = (categoriaSelezionata === 'racchette') ? dbPadel : dbScarpePadel; 
+            }
+
+            const risultati = dbAttuale.filter(item => {
+                const matchLivello = (livello === 'Tutti') || (item.liv === 'Tutti') || (item.liv === livello);
+                const matchStile = item.st === stile;
+                return matchLivello && matchStile;
+            });
+
+            grid.innerHTML = '';
+            sezione.style.display = 'block';
+
+            if (risultati.length === 0) {
+                grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color:#666;"><h3>Nessun prodotto trovato.</h3><p>Prova a cambiare i filtri.</p></div>`;
+            } else {
+                risultati.forEach(r => {
+                    let specPreview = "";
+                    if (categoriaSelezionata === 'racchette' && sportSelezionato === 'tennis') {
+                        specPreview = `<span>⚖️ ${r.peso}</span><span>🎯 ${r.st}</span>`;
+                    } else {
+                        specPreview = `<span>💶 ${r.prezzo}</span><span>🎯 ${r.st}</span>`;
+                    }
+
+                    grid.innerHTML += `
+                        <div class="product-card">
+                            <div class="card-image-container">
+                                <img src="${r.img}" alt="${r.nome}" onerror="this.src='https://via.placeholder.com/200?text=Foto+Mancante'">
+                            </div>
+                            <div class="card-content">
+                                <span class="badge">${r.liv}</span>
+                                <h3>${r.nome}</h3>
+                                <div class="spec-preview">${specPreview}</div>
+                                <button class="btn-action" style="margin-top:10px; padding:0.8rem;" onclick="apriModal(${r.id})">Vedi Dettagli</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            sezione.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // --- MODAL ---
+        function apriModal(id) {
+            let dbAttuale;
+            if (sportSelezionato === 'tennis') {
+                dbAttuale = (categoriaSelezionata === 'racchette') ? dbRacchette : dbScarpe;
+            } else {
+                dbAttuale = (categoriaSelezionata === 'racchette') ? dbPadel : dbScarpePadel; 
+            }
+
+            const r = dbAttuale.find(item => item.id === id);
+            if (!r) return;
+
+            const modal = document.getElementById('product-modal');
+            const body = document.getElementById('modal-body');
+
+            let specs = (categoriaSelezionata === 'racchette') ? 
+                (sportSelezionato === 'tennis' ? 
+                    `<li><strong>Peso:</strong> ${r.peso}</li><li><strong>Piatto:</strong> ${r.piatto} in²</li><li><strong>Schema:</strong> ${r.pattern}</li>` : 
+                    `<li><strong>Livello:</strong> ${r.liv}</li><li><strong>Stile:</strong> ${r.st}</li>`) :
+                `<li><strong>Tipo:</strong> ${r.st}</li><li><strong>Superficie:</strong> ${r.superficie || "Specifiche"}</li>`;
+
+            // Stile inline per garantire che l'immagine non si sovrapponga mai
+            body.innerHTML = `
+                <div class="modal-grid" style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 3rem; align-items: start;">
+                    <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+                        <div style="width: 100%; height: 300px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                            <img src="${r.img}" style="max-height: 100%; max-width: 100%; object-fit: contain; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.1));" onerror="this.src='https://via.placeholder.com/300'">
+                        </div>
+                        <h2 style="color:var(--wimbledon-green); margin-bottom: 15px; font-size: 2rem;">${r.prezzo}</h2>
+                        <a href="${r.link || '#'}" target="_blank" class="btn-action" style="margin: 0; width: 100%; text-decoration: none; text-align: center;">
+                            Verifica su Amazon
+                        </a>
+                    </div>
+                    <div>
+                        <h2 style="font-size: 2rem; margin-bottom: 10px;">${r.nome}</h2>
+                        <span class="badge">${r.st}</span>
+                        <p style="margin: 20px 0; color: var(--text-light); line-height: 1.8;">${r.desc}</p>
+                        <ul class="tech-specs" style="list-style: none; margin-bottom: 25px;">${specs}</ul>
+                        <div style="background:#f0fdf4; padding:15px; border-radius:10px; margin-bottom:10px; border:1px solid #dcfce7; font-size:0.9rem;">✅ <strong>PRO:</strong> ${r.pros}</div>
+                        <div style="background:#fef2f2; padding:15px; border-radius:10px; border:1px solid #fee2e2; font-size:0.9rem;">⚠️ <strong>CONTRO:</strong> ${r.cons}</div>
+                    </div>
+                </div>
+            `;
+            modal.style.display = 'flex';
+        }
+
+        function chiudiModal() {
+            document.getElementById('product-modal').style.display = 'none';
+        }
+        
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('product-modal')) chiudiModal();
+        }
+    </script>
+</body>
+</html>
