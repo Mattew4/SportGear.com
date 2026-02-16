@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News & Guide Tecniche | SportGear.it</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Montserrat:wght@800&display=swap');
+
+        :root {
+            --wimbledon-green: #004e32;
+            --tennis-ball: #ccff00;
+            --bg-soft: #f8fafc;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-soft); color: var(--text-dark); line-height: 1.6; }
+
+        /* --- NAVIGATION --- */
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 5%; background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .logo { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.4rem; cursor: pointer; color: var(--text-dark); }
+        .logo span { color: var(--wimbledon-green); }
+
+        /* --- HERO EDITORIALE --- */
+        .news-hero {
+            padding: 6rem 5% 4rem; text-align: center;
+            background: linear-gradient(135deg, #004e32 0%, #002e1e 100%);
+            color: white; margin-bottom: 4rem;
+        }
+        .news-hero h1 { font-family: 'Montserrat', sans-serif; font-size: 3rem; margin-bottom: 1rem; }
+        .news-hero p { font-size: 1.1rem; opacity: 0.8; max-width: 700px; margin: 0 auto; }
+
+        /* --- SEZIONE ARTICOLO IN EVIDENZA --- */
+        .featured-article {
+            max-width: 1100px; margin: -6rem auto 4rem;
+            background: white; border-radius: 24px; overflow: hidden;
+            display: grid; grid-template-columns: 1.2fr 1fr;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.1);
+        }
+        .featured-img { background: url('img/scelta-neofiti.jpg') center/cover no-repeat; min-height: 400px; }
+        .featured-content { padding: 3rem; display: flex; flex-direction: column; justify-content: center; }
+
+        /* --- GRIGLIA NEWS --- */
+        .news-container { max-width: 1100px; margin: 0 auto 5rem; padding: 0 20px; }
+        .section-title { margin-bottom: 2rem; display: flex; align-items: center; gap: 15px; }
+        .section-title::after { content: ''; flex-grow: 1; height: 1px; background: #ddd; }
+
+        .blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2.5rem; }
+
+        .news-card {
+            background: white; border-radius: 20px; overflow: hidden;
+            transition: all 0.3s ease; border: 1px solid rgba(0,0,0,0.05);
+        }
+        .news-card:hover { transform: translateY(-10px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        
+        .news-card img { width: 100%; height: 220px; object-fit: cover; }
+        .news-card-body { padding: 1.8rem; }
+        
+        .cat-tag { 
+            font-size: 0.7rem; font-weight: 700; text-transform: uppercase; 
+            color: var(--wimbledon-green); letter-spacing: 1px; margin-bottom: 0.5rem; display: block;
+        }
+
+        .news-card h3 { font-family: 'Montserrat', sans-serif; font-size: 1.2rem; margin-bottom: 0.8rem; line-height: 1.3; }
+        .news-card p { color: var(--text-light); font-size: 0.9rem; margin-bottom: 1.5rem; }
+
+        .read-more { 
+            text-decoration: none; color: var(--text-dark); font-weight: 700; font-size: 0.9rem;
+            display: flex; align-items: center; gap: 5px; transition: 0.2s;
+        }
+        .read-more:hover { color: var(--wimbledon-green); gap: 10px; }
+
+        @media (max-width: 900px) {
+            .featured-article { grid-template-columns: 1fr; margin-top: -2rem; }
+            .news-hero h1 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo" onclick="window.location.href='index.html'">SPORTGEAR<span>.it</span></div>
+        <a href="index.html" style="text-decoration: none; color: var(--text-dark); font-weight: 600; font-size: 0.9rem;">← Torna al Selettore</a>
+    </nav>
+
+    <header class="news-hero">
+        <h1>Academy & News</h1>
+        <p>Il laboratorio tecnico dove analizziamo materiali, tecnologie e segreti del gioco.</p>
+    </header>
+
+    <div class="featured-article">
+        <div class="featured-img"></div>
+        <div class="featured-content">
+            <span class="cat-tag">Speciale Neofiti</span>
+            <h2 style="font-family: 'Montserrat', sans-serif; font-size: 2rem; margin-bottom: 1rem;">La tua prima racchetta: non commettere questi 3 errori.</h2>
+            <p style="color: var(--text-light); margin-bottom: 2rem;">Molti iniziano con racchette troppo pesanti o troppo tecniche. Ecco come scegliere un telaio che perdona gli errori e salva il tuo gomito.</p>
+            <a href="articoli/guida-neofiti.html" class="read-more" style="background: var(--wimbledon-green); color: white; padding: 12px 25px; border-radius: 10px; width: fit-content;">Leggi la guida completa</a>
+        </div>
+    </div>
+
+    <main class="news-container">
+        <div class="section-title"><h3>Ultime Guide</h3></div>
+        
+        <div id="grid-news" class="blog-grid"></div>
+    </main>
+
+    <footer style="background: #1e293b; color: white; padding: 4rem 5%; text-align: center;">
+        <p style="font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.2rem; margin-bottom: 1rem;">SPORTGEAR<span>.it</span></p>
+        <p style="opacity: 0.5; font-size: 0.8rem;">Analisi tecnica indipendente. In qualità di affiliato Amazon riceviamo un compenso dagli acquisti idonei.</p>
+    </footer>
+
+    <script>
+        // --- IL TUO DATABASE DEGLI ARTICOLI ---
+        // L'ordine è importante: il primo in alto sarà il primo a comparire sul sito.
+        const dbNews = [
+            {
+                titolo: "Suola Clay o All-Court? La scelta decisiva.",
+                categoria: "Materiali",
+                desc: "Perché usare la suola sbagliata sul cemento può rovinarti le ginocchia in pochi mesi.",
+                img: "img/scarpe-allcourt.webp",
+                link: "articoli/suola-clay-allcourt.html"
+            },
+            {
+                titolo: "Gomma EVA o Foam? Scopri il cuore della tua pala.",
+                categoria: "Padel",
+                desc: "Analizziamo la densità dei materiali per capire quale ti regala più 'salida de bola'.",
+                img: "img/padel-foam.jpg",
+                link: "articoli/gomma-eva-foam.html"
+            },
+            {
+                titolo: "Tensione corde: il segreto dei professionisti.",
+                categoria: "Corde",
+                desc: "Sinner tira a 24kg o a 20kg? Scopri come la tensione influenza il controllo della palla.",
+                img: "https://images.unsplash.com/photo-1592709823125-a191f07a2a5e?q=80&w=600",
+                link: "articoli/tensione-corde.html"
+            }
+        ];
+
+        // --- FUNZIONE CHE CARICA GLI ARTICOLI ---
+        function caricaNews() {
+            const grid = document.getElementById('grid-news');
+            grid.innerHTML = ''; // Pulisce la griglia
+
+            dbNews.forEach(articolo => {
+                grid.innerHTML += `
+                    <article class="news-card">
+                        <img src="${articolo.img}" alt="${articolo.categoria}">
+                        <div class="news-card-body">
+                            <span class="cat-tag">${articolo.categoria}</span>
+                            <h3>${articolo.titolo}</h3>
+                            <p>${articolo.desc}</p>
+                            <a href="${articolo.link}" class="read-more">Leggi tutto <span>→</span></a>
+                        </div>
+                    </article>
+                `;
+            });
+        }
+
+        // Avvia la funzione appena la pagina si apre
+        window.onload = caricaNews;
+    </script>
+
+</body>
+</html>
